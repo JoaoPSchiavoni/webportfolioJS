@@ -349,10 +349,12 @@ class _PortfolioPageState extends State<PortfolioPage>
         AnimatedBuilder(
           animation: motion,
           builder: (_, _) => AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
+            duration: Duration(milliseconds: reduced ? 0 : 500),
             child: Text(
-              motion.value < .5 ? 'Software Developer' : 'Backend Developer',
-              key: ValueKey(motion.value < .5),
+              (motion.value * 8).floor().isEven
+                  ? 'Software Developer'
+                  : 'Backend Developer',
+              key: ValueKey((motion.value * 8).floor().isEven),
               style: TextStyle(
                 fontSize: mobile ? 23 : 27,
                 fontWeight: FontWeight.w600,
@@ -430,7 +432,8 @@ class _PortfolioPageState extends State<PortfolioPage>
               ),
             ),
             Transform.rotate(
-              angle: motion.value * math.pi * 2,
+              key: const ValueKey('portrait-orbit'),
+              angle: motion.value * math.pi * 4,
               child: Container(
                 width: 320,
                 height: 320,
@@ -444,7 +447,7 @@ class _PortfolioPageState extends State<PortfolioPage>
               child: Transform.translate(
                 offset: Offset(
                   0,
-                  reduced ? 0 : math.sin(motion.value * math.pi * 4) * 6,
+                  reduced ? 0 : math.sin(motion.value * math.pi * 16) * 8,
                 ),
                 child: ShaderMask(
                   shaderCallback: (rect) => const LinearGradient(
@@ -578,6 +581,7 @@ class _PortfolioPageState extends State<PortfolioPage>
                     alignment: Alignment.centerLeft,
                     maxWidth: double.infinity,
                     child: Transform.translate(
+                      key: const ValueKey('technology-motion'),
                       offset: Offset(-motion.value * cycleWidth, 0),
                       child: child,
                     ),
@@ -967,21 +971,42 @@ class HoverCard extends StatefulWidget {
 
 class _HoverCardState extends State<HoverCard> {
   bool hover = false;
+  final Set<int> pointers = {};
+
+  void release(PointerEvent event) {
+    setState(() => pointers.remove(event.pointer));
+  }
+
   @override
-  Widget build(BuildContext context) => MouseRegion(
-    onEnter: (_) => setState(() => hover = true),
-    onExit: (_) => setState(() => hover = false),
-    child: AnimatedContainer(
-      duration: Duration(
-        milliseconds: MediaQuery.disableAnimationsOf(context) ? 0 : 200,
+  Widget build(BuildContext context) {
+    final active = hover || pointers.isNotEmpty;
+    final reduced = MediaQuery.disableAnimationsOf(context);
+    return MouseRegion(
+      onEnter: (_) => setState(() => hover = true),
+      onExit: (_) => setState(() => hover = false),
+      // Raw pointer events preserve scrolling and the nested project button.
+      child: Listener(
+        onPointerDown: (event) => setState(() => pointers.add(event.pointer)),
+        onPointerUp: release,
+        onPointerCancel: release,
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: reduced ? 0 : 200),
+          curve: Curves.easeOutCubic,
+          transform: Matrix4.translationValues(
+            0,
+            active && !reduced ? -5 : 0,
+            0,
+          ),
+          decoration: BoxDecoration(
+            color: background,
+            border: Border.all(
+              color: active ? orange : const Color(0xFF293944),
+            ),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: widget.child,
+        ),
       ),
-      transform: Matrix4.translationValues(0, hover ? -5 : 0, 0),
-      decoration: BoxDecoration(
-        color: background,
-        border: Border.all(color: hover ? orange : const Color(0xFF293944)),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: widget.child,
-    ),
-  );
+    );
+  }
 }
