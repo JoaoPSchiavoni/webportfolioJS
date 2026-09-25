@@ -343,6 +343,24 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Feito com Flutter. Pensado nos detalhes.'**
   String get footer;
+
+  /// No description provided for @motionPaused.
+  ///
+  /// In pt, this message translates to:
+  /// **'Animações pausadas · movimento reduzido'**
+  String get motionPaused;
+
+  /// No description provided for @enableMotion.
+  ///
+  /// In pt, this message translates to:
+  /// **'Ativar animações'**
+  String get enableMotion;
+
+  /// No description provided for @pauseMotion.
+  ///
+  /// In pt, this message translates to:
+  /// **'Pausar animações'**
+  String get pauseMotion;
 }
 
 class _AppLocalizationsDelegate

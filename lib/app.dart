@@ -20,6 +20,7 @@ class PortfolioApp extends StatefulWidget {
 
 class _PortfolioAppState extends State<PortfolioApp> {
   Locale locale = const Locale('pt');
+  bool? reduceMotionOverride;
   @override
   Widget build(BuildContext context) => MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -27,6 +28,15 @@ class _PortfolioAppState extends State<PortfolioApp> {
     locale: locale,
     supportedLocales: AppLocalizations.supportedLocales,
     localizationsDelegates: AppLocalizations.localizationsDelegates,
+    builder: (context, child) {
+      final media = MediaQuery.of(context);
+      return MediaQuery(
+        data: media.copyWith(
+          disableAnimations: reduceMotionOverride ?? media.disableAnimations,
+        ),
+        child: child!,
+      );
+    },
     theme: ThemeData(
       brightness: Brightness.dark,
       scaffoldBackgroundColor: background,
@@ -59,13 +69,19 @@ class _PortfolioAppState extends State<PortfolioApp> {
     ),
     home: PortfolioPage(
       onLocale: (value) => setState(() => locale = Locale(value)),
+      onMotion: (value) => setState(() => reduceMotionOverride = value),
     ),
   );
 }
 
 class PortfolioPage extends StatefulWidget {
-  const PortfolioPage({super.key, required this.onLocale});
+  const PortfolioPage({
+    super.key,
+    required this.onLocale,
+    required this.onMotion,
+  });
   final ValueChanged<String> onLocale;
+  final ValueChanged<bool> onMotion;
   @override
   State<PortfolioPage> createState() => _PortfolioPageState();
 }
@@ -80,8 +96,9 @@ class _PortfolioPageState extends State<PortfolioPage>
   late final AnimationController motion = AnimationController(
     vsync: this,
     duration: const Duration(seconds: 32),
+    animationBehavior: AnimationBehavior.preserve,
   );
-  bool menu = false;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   bool reduced = false;
   AppLocalizations get t => AppLocalizations.of(context)!;
 
@@ -106,7 +123,7 @@ class _PortfolioPageState extends State<PortfolioPage>
   }
 
   void go(int index) {
-    setState(() => menu = false);
+    scaffoldKey.currentState?.closeEndDrawer();
     final target = keys[index].currentContext;
     if (target != null) {
       Scrollable.ensureVisible(
@@ -184,6 +201,10 @@ class _PortfolioPageState extends State<PortfolioPage>
     final mobile = MediaQuery.sizeOf(context).width < 800;
     final nav = [t.home, t.about, t.technologies, t.projects, t.contact];
     return Scaffold(
+      key: scaffoldKey,
+      endDrawer: mobile ? mobileNavigation(nav) : null,
+      endDrawerEnableOpenDragGesture: false,
+      drawerScrimColor: Colors.black.withValues(alpha: .65),
       body: SafeArea(
         child: Column(
           children: [
@@ -250,9 +271,20 @@ class _PortfolioPageState extends State<PortfolioPage>
                             child: mobile
                                 ? IconButton(
                                     tooltip: t.menu,
-                                    onPressed: () =>
-                                        setState(() => menu = !menu),
-                                    icon: Icon(menu ? Icons.close : Icons.menu),
+                                    key: const ValueKey('open-mobile-menu'),
+                                    onPressed: () => scaffoldKey.currentState
+                                        ?.openEndDrawer(),
+                                    style: IconButton.styleFrom(
+                                      minimumSize: const Size(48, 48),
+                                      backgroundColor: surface,
+                                      side: const BorderSide(
+                                        color: Color(0xFF34434E),
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                    icon: const Icon(Icons.menu_rounded),
                                   )
                                 : Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -278,13 +310,25 @@ class _PortfolioPageState extends State<PortfolioPage>
                 ),
               ),
             ),
-            if (menu && mobile)
-              Wrap(
-                alignment: WrapAlignment.center,
-                children: List.generate(
-                  5,
-                  (i) =>
-                      TextButton(onPressed: () => go(i), child: Text(nav[i])),
+            if (reduced)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 4,
+                ),
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 12,
+                  children: [
+                    Text(t.motionPaused, style: const TextStyle(fontSize: 12)),
+                    TextButton.icon(
+                      key: const ValueKey('enable-motion'),
+                      onPressed: () => widget.onMotion(false),
+                      icon: const Icon(Icons.play_arrow, size: 18),
+                      label: Text(t.enableMotion),
+                    ),
+                  ],
                 ),
               ),
             Expanded(
@@ -324,11 +368,130 @@ class _PortfolioPageState extends State<PortfolioPage>
                             style: const TextStyle(fontSize: 12),
                           ),
                           Text(t.footer, style: const TextStyle(fontSize: 12)),
+                          TextButton.icon(
+                            key: const ValueKey('toggle-motion'),
+                            onPressed: () => widget.onMotion(!reduced),
+                            icon: Icon(
+                              reduced ? Icons.play_arrow : Icons.pause,
+                              size: 18,
+                            ),
+                            label: Text(
+                              reduced ? t.enableMotion : t.pauseMotion,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget mobileNavigation(List<String> labels) {
+    const icons = [
+      Icons.home_outlined,
+      Icons.person_outline_rounded,
+      Icons.code_rounded,
+      Icons.work_outline_rounded,
+      Icons.chat_bubble_outline_rounded,
+    ];
+    return Drawer(
+      key: const ValueKey('mobile-navigation'),
+      width: math.min(360, MediaQuery.sizeOf(context).width - 24),
+      backgroundColor: surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.horizontal(left: Radius.circular(24)),
+        side: BorderSide(color: Color(0xFF293944)),
+      ),
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 20, 16, 20),
+              child: Row(
+                children: [
+                  const Text(
+                    'JS.',
+                    style: TextStyle(
+                      color: orange,
+                      fontSize: 26,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Text(
+                      t.menu,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    tooltip: t.close,
+                    onPressed: () => scaffoldKey.currentState?.closeEndDrawer(),
+                    icon: const Icon(Icons.close_rounded),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 1, color: Color(0xFF293944)),
+            Expanded(
+              child: ListView.separated(
+                padding: const EdgeInsets.all(16),
+                itemCount: labels.length,
+                separatorBuilder: (_, _) => const SizedBox(height: 10),
+                itemBuilder: (_, index) => Material(
+                  color: background,
+                  borderRadius: BorderRadius.circular(14),
+                  child: InkWell(
+                    key: ValueKey('mobile-nav-$index'),
+                    borderRadius: BorderRadius.circular(14),
+                    onTap: () => go(index),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 19,
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(icons[index], color: orange, size: 23),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Text(
+                              labels[index],
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          const Icon(
+                            Icons.arrow_forward_rounded,
+                            color: muted,
+                            size: 18,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(24),
+              child: Text(
+                'JOÃO SCHIAVONI',
+                style: TextStyle(color: muted, fontSize: 11, letterSpacing: 2),
               ),
             ),
           ],

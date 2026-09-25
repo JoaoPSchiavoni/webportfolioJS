@@ -144,4 +144,13 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get footer => 'Feito com Flutter. Pensado nos detalhes.';
+
+  @override
+  String get motionPaused => 'Animações pausadas · movimento reduzido';
+
+  @override
+  String get enableMotion => 'Ativar animações';
+
+  @override
+  String get pauseMotion => 'Pausar animações';
 }

@@ -4,6 +4,50 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:webportfolio/app.dart';
 
 void main() {
+  testWidgets(
+    'Explicit play restores motion when the platform requests reduced motion',
+    (tester) async {
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(
+        tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+      );
+      tester.platformDispatcher.accessibilityFeaturesTestValue =
+          FakeAccessibilityFeatures(disableAnimations: true);
+      await tester.pumpWidget(const PortfolioApp());
+      await tester.pump();
+      Matrix4 matrix() => tester
+          .widget<Transform>(find.byKey(const ValueKey('technology-motion')))
+          .transform
+          .clone();
+      final stopped = matrix();
+      await tester.pump(const Duration(seconds: 4));
+      expect(matrix(), stopped);
+      await tester.tap(find.byKey(const ValueKey('enable-motion')));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      expect(matrix(), isNot(stopped));
+      expect(find.byKey(const ValueKey('enable-motion')), findsNothing);
+      await tester.pump(const Duration(seconds: 3));
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.text('Software Engineering'), findsOneWidget);
+      await tester.scrollUntilVisible(
+        find.byKey(const ValueKey('toggle-motion')),
+        700,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.tap(find.byKey(const ValueKey('toggle-motion')));
+      await tester.pump();
+      final paused = matrix();
+      await tester.pump(const Duration(seconds: 4));
+      expect(matrix(), paused);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+    },
+  );
+
   testWidgets('Mobile animations advance and respect reduced motion', (
     tester,
   ) async {
