@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -634,33 +635,7 @@ class _PortfolioPageState extends State<PortfolioPage>
         const SizedBox(height: 20),
         heading(t.aboutTitle),
         const SizedBox(height: 28),
-        ...[
-          ('01', 'Backend Development'),
-          ('02', 'Software Engineering'),
-          ('03', 'Software Architecture'),
-        ].map(
-          (item) => Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: Row(
-              children: [
-                Text(
-                  item.$1,
-                  style: const TextStyle(
-                    color: orange,
-                    fontFamily: 'monospace',
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Flexible(
-                  child: Text(
-                    item.$2,
-                    style: const TextStyle(color: Colors.white, fontSize: 17),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        const RotatingExpertise(),
       ],
     );
     final story = Column(
@@ -1009,4 +984,105 @@ class _HoverCardState extends State<HoverCard> {
       ),
     );
   }
+}
+
+class RotatingExpertise extends StatefulWidget {
+  const RotatingExpertise({super.key});
+
+  @override
+  State<RotatingExpertise> createState() => _RotatingExpertiseState();
+}
+
+class _RotatingExpertiseState extends State<RotatingExpertise> {
+  static const titles = [
+    'Backend Development',
+    'Software Engineering',
+    'Software Architecture',
+  ];
+  Timer? timer;
+  int index = 0;
+  bool reduced = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    reduced = MediaQuery.disableAnimationsOf(context);
+    if (reduced) {
+      timer?.cancel();
+      timer = null;
+    } else {
+      timer ??= Timer.periodic(const Duration(seconds: 3), (_) {
+        setState(() => index = (index + 1) % titles.length);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    label: titles.join(', '),
+    child: ExcludeSemantics(
+      child: Container(
+        padding: const EdgeInsets.only(left: 16),
+        decoration: const BoxDecoration(
+          border: Border(left: BorderSide(color: orange, width: 2)),
+        ),
+        child: SizedBox(
+          height: 52,
+          width: double.infinity,
+          child: ClipRect(
+            child: AnimatedSwitcher(
+              duration: Duration(milliseconds: reduced ? 0 : 550),
+              switchInCurve: Curves.easeOutCubic,
+              switchOutCurve: Curves.easeInCubic,
+              layoutBuilder: (current, previous) => Stack(
+                alignment: Alignment.centerLeft,
+                children: [...previous, ?current],
+              ),
+              transitionBuilder: (child, animation) => AnimatedBuilder(
+                animation: animation,
+                child: child,
+                builder: (_, child) => Opacity(
+                  opacity: animation.value,
+                  child: FractionalTranslation(
+                    translation: Offset(
+                      0,
+                      (1 - animation.value) *
+                          (animation.status == AnimationStatus.reverse
+                              ? -.7
+                              : .7),
+                    ),
+                    child: child,
+                  ),
+                ),
+              ),
+              child: SizedBox(
+                key: ValueKey(titles[index]),
+                width: double.infinity,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    titles[index],
+                    maxLines: 1,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 21,
+                      fontWeight: FontWeight.w600,
+                      height: 1.4,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
 }
