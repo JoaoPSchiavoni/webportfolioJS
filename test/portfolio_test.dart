@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:webportfolio/app.dart';
+import 'package:webportfolio/moveup_project_page.dart';
 
 void main() {
   for (final width in [360.0, 768.0, 1440.0]) {
@@ -33,6 +34,55 @@ void main() {
       expect(find.text('Please complete this field.'), findsNWidgets(2));
       expect(find.text('Enter a valid email address.'), findsOneWidget);
       expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+  }
+
+  for (final width in [360.0, 1440.0]) {
+    testWidgets('MoveUp opens the complete project context at $width', (
+      tester,
+    ) async {
+      tester.view.physicalSize = Size(width, 1000);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(const PortfolioApp());
+      await tester.pump(const Duration(milliseconds: 100));
+
+      final scroll = find.byType(Scrollable).first;
+      await tester.scrollUntilVisible(
+        find.text('MoveUp'),
+        700,
+        scrollable: scroll,
+      );
+      final cards = find.byType(HoverCard);
+      expect(cards, findsNWidgets(4));
+      final cardHeight = tester.getSize(cards.first).height;
+      for (var index = 1; index < 4; index++) {
+        expect(tester.getSize(cards.at(index)).height, cardHeight);
+      }
+      final explore = find.byKey(const ValueKey('explore-project-0'));
+      await tester.ensureVisible(explore);
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.tap(explore);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+
+      expect(find.byType(MoveUpProjectPage), findsOneWidget);
+      expect(
+        find.text('Organize sua rotina. Treine no seu ritmo.'),
+        findsOneWidget,
+      );
+      expect(find.text('Do planejamento à evolução.'), findsOneWidget);
+      expect(
+        find.text('Camadas independentes, produto flexível.'),
+        findsOneWidget,
+      );
+      expect(find.text('Integridade pensada desde a base.'), findsOneWidget);
+      expect(find.byTooltip('Voltar'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+
       await tester.pumpWidget(const SizedBox.shrink());
     });
   }

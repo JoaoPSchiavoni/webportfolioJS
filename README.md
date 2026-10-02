@@ -26,9 +26,9 @@ Publique o conteúdo de `build/web` em um servidor estático HTTPS. Para subdire
 - Componentes e layout: `lib/app.dart`.
 - Retrato: `assets/images/joao.png`.
 - Currículo original, em português: `assets/documents/curriculo_joao.pdf`.
-- Agendai Fisio e ExpenseTracker: informações fornecidas pelo autor e currículo.
+- MoveUp e ExpenseTracker: informações fornecidas pelo autor, currículo e materiais dos projetos.
 - CloudTask API e AI Document API: conceitos explicitamente identificados; sem métricas ou links inventados.
-- Os painéis dos projetos são ilustrações, não screenshots dos produtos.
+- O card e a landing page do MoveUp usam as apresentações visuais oficiais em `assets/images/moveup-apresentacao.png` e `assets/images/moveup-devices.png`; os demais painéis são ilustrações conceituais.
 - Formulário valida os campos e prepara `mailto:`; exige aplicativo de e-mail configurado e não transmite dados para um servidor.
 - Currículo abre o PDF no navegador, que permite salvar o arquivo.
 

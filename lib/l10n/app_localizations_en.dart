@@ -51,7 +51,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutBody =>
-      'I\'m João Pedro Schiavoni Sarilho, a software developer focused on backend development and passionate about building robust, scalable and well-structured systems. I\'m currently studying Systems Analysis and Development at UNIP, focusing on the .NET ecosystem and Python.\n\nI believe good software goes beyond making code work. I\'m deeply interested in software engineering and architecture, actively applying Clean Architecture and SOLID principles to build maintainable applications. This technical perspective led me to work as Tech Lead on projects such as Agendai Fisio, where I defined the system architecture, designed the database and coordinated the team\'s deliveries, integrating our backend with Flutter interfaces.\n\nBeyond the technical side, I value communication and a global perspective. I spent a year studying in Dublin, Ireland, strengthening my English fluency and preparing me to work in multicultural environments.\n\nI\'m always looking to grow technically, whether exploring AI integrations, preparing for certifications such as Microsoft Azure AI Fundamentals or reading industry references. My goal is to keep developing my software architecture skills and deliver solutions that make a difference.';
+      'I\'m João Pedro Schiavoni Sarilho, a software developer focused on backend development and passionate about building robust, scalable and well-structured systems. I\'m currently studying Systems Analysis and Development at UNIP, focusing on the .NET ecosystem and Python.\n\nI believe good software goes beyond making code work. I\'m deeply interested in software engineering and architecture, actively applying Clean Architecture and SOLID principles to build maintainable applications. This technical perspective guided the development of MoveUp, a local-first full-stack application that connects a Flutter mobile experience to an ASP.NET Core REST API.\n\nBeyond the technical side, I value communication and a global perspective. I spent a year studying in Dublin, Ireland, strengthening my English fluency and preparing me to work in multicultural environments.\n\nI\'m always looking to grow technically, whether exploring AI integrations, preparing for certifications such as Microsoft Azure AI Fundamentals or reading industry references. My goal is to keep developing my software architecture skills and deliver solutions that make a difference.';
 
   @override
   String get education =>
@@ -65,8 +65,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'A selection of projects and concepts that reflect how I approach software.';
 
   @override
-  String get fisio =>
-      'Clinical management and scheduling platform. Tech Lead for a team of 8, defining architecture, data modelling and quality standards. Interface currently migrating to Flutter.';
+  String get moveUpCardDescription =>
+      'A full-stack application for planning and tracking workouts. Create routines, log sets and rest periods, and follow progress, measurements and consistency — even offline.';
 
   @override
   String get expense =>
@@ -84,13 +84,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get realProject => 'University project · UNIP';
 
   @override
+  String get fullStackProject => 'Full-stack application · Local-first';
+
+  @override
   String get personalProject => 'Personal project';
 
   @override
   String get concept => 'Concept · demonstration';
 
   @override
-  String get projectVisual => 'Conceptual project illustration';
+  String get projectVisual => 'Project visual presentation';
 
   @override
   String get details => 'Explore project';

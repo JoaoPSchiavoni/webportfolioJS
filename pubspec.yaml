@@ -21,4 +21,6 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/joao.png
+    - assets/images/moveup-apresentacao.png
+    - assets/images/moveup-devices.png
     - assets/documents/curriculo_joao.pdf

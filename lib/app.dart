@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'l10n/app_localizations.dart';
+import 'moveup_project_page.dart';
 
 const orange = Color(0xFFFF6B35);
 const background = Color(0xFF0B151D);
@@ -67,6 +68,7 @@ class _PortfolioAppState extends State<PortfolioApp> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
+    routes: {'/projects/moveup': (_) => const MoveUpProjectPage()},
     home: PortfolioPage(
       onLocale: (value) => setState(() => locale = Locale(value)),
       onMotion: (value) => setState(() => reduceMotionOverride = value),
@@ -843,11 +845,11 @@ class _PortfolioPageState extends State<PortfolioPage>
   Widget projects(bool mobile) {
     final data = [
       (
-        'Agendai Fisio',
-        t.fisio,
-        '.NET · Flutter · PostgreSQL',
-        t.realProject,
-        Icons.calendar_month_outlined,
+        'MoveUp',
+        t.moveUpCardDescription,
+        'Flutter · Dart · .NET 10 · SQLite',
+        t.fullStackProject,
+        Icons.fitness_center_rounded,
         const Color(0xFF7CB7AC),
       ),
       (
@@ -892,99 +894,170 @@ class _PortfolioPageState extends State<PortfolioPage>
               final p = entry.value;
               return SizedBox(
                 width: c.maxWidth < 700 ? c.maxWidth : (c.maxWidth - 24) / 2,
+                height: mobile ? 720 : 610,
                 child: HoverCard(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        constraints: const BoxConstraints(minHeight: 190),
-                        padding: const EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [p.$6.withValues(alpha: .16), background],
-                          ),
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(12),
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      if (entry.key == 0)
+                        Semantics(
+                          image: true,
+                          label: '${p.$1} — ${t.projectVisual}',
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(11),
+                            ),
+                            child: Stack(
                               children: [
-                                Icon(p.$5, color: p.$6, size: 36),
-                                Text(
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: mobile ? 250 : 220,
+                                  child: Image.asset(
+                                    'assets/images/moveup-apresentacao.png',
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 16,
+                                  right: 16,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 6,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: background.withValues(alpha: .82),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Text(
+                                      '0${entry.key + 1}',
+                                      style: TextStyle(
+                                        color: p.$6,
+                                        fontFamily: 'monospace',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      else
+                        Container(
+                          height: mobile ? 250 : 220,
+                          padding: const EdgeInsets.all(24),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [p.$6.withValues(alpha: .16), background],
+                            ),
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(12),
+                            ),
+                          ),
+                          child: Stack(
+                            children: [
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Icon(p.$5, color: p.$6, size: 36),
+                              ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
                                   '0${entry.key + 1}',
                                   style: TextStyle(
                                     color: p.$6,
                                     fontFamily: 'monospace',
                                   ),
                                 ),
-                              ],
-                            ),
-                            const SizedBox(height: 32),
-                            Text(
-                              p.$1,
-                              style: TextStyle(
-                                color: p.$6,
-                                fontSize: 28,
-                                fontWeight: FontWeight.w700,
                               ),
-                            ),
-                            Text(
-                              t.projectVisual,
-                              style: const TextStyle(fontSize: 11),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            label(p.$4),
-                            const SizedBox(height: 12),
-                            Text(
-                              p.$1,
-                              style: const TextStyle(
-                                fontSize: 24,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            Text(p.$2),
-                            const SizedBox(height: 20),
-                            Wrap(
-                              spacing: 8,
-                              runSpacing: 8,
-                              children: p.$3.split(' · ').map(chip).toList(),
-                            ),
-                            const SizedBox(height: 20),
-                            TextButton.icon(
-                              onPressed: () => showDialog<void>(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text(p.$1),
-                                  content: SingleChildScrollView(
-                                    child: Text(
-                                      '${p.$4}\n\n${p.$2}\n\n${p.$3}\n\n${entry.key < 2 ? t.realDetail : t.conceptDetail}',
+                              Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          p.$1,
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                            color: p.$6,
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: Text(t.close),
+                                    Text(
+                                      t.projectVisual,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontSize: 11),
                                     ),
                                   ],
                                 ),
                               ),
-                              icon: const Icon(Icons.arrow_outward, size: 18),
-                              label: Text(t.details),
-                            ),
-                          ],
+                            ],
+                          ),
+                        ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              label(p.$4),
+                              const SizedBox(height: 12),
+                              Text(
+                                p.$1,
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              Expanded(child: Text(p.$2)),
+                              const SizedBox(height: 18),
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children: p.$3.split(' · ').map(chip).toList(),
+                              ),
+                              const SizedBox(height: 18),
+                              TextButton.icon(
+                                key: ValueKey('explore-project-${entry.key}'),
+                                onPressed: entry.key == 0
+                                    ? () =>
+                                          Navigator.of(context)
+                                              .pushNamed('/projects/moveup')
+                                    : () => showDialog<void>(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: Text(p.$1),
+                                          content: SingleChildScrollView(
+                                            child: Text(
+                                              '${p.$4}\n\n${p.$2}\n\n${p.$3}\n\n${entry.key < 2 ? t.realDetail : t.conceptDetail}',
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: Text(t.close),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                icon: const Icon(Icons.arrow_outward, size: 18),
+                                label: Text(t.details),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

@@ -51,7 +51,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get aboutBody =>
-      'Olá, sou o João Pedro Schiavoni Sarilho, um desenvolvedor de software com foco em backend e apaixonado por construir sistemas robustos, escaláveis e bem estruturados. Atualmente, curso Análise e Desenvolvimento de Sistemas na UNIP e concentro meu trabalho no ecossistema .NET e em Python.\n\nAcredito que um bom software vai além de fazer o código funcionar. Tenho um forte interesse em engenharia e arquitetura de software, aplicando ativamente princípios como Clean Architecture e SOLID para garantir aplicações de fácil manutenção. Essa visão técnica me permitiu atuar como Tech Lead em projetos como o Agendai Fisio, onde fui responsável por definir a arquitetura do sistema, modelar o banco de dados e coordenar as entregas da equipe de desenvolvimento, integrando nosso backend com interfaces em Flutter.\n\nAlém da parte técnica, valorizo muito a comunicação e a visão global. Realizei um intercâmbio de um ano em Dublin, na Irlanda, o que consolidou minha fluência no inglês e me preparou para atuar em ambientes multiculturais.\n\nEstou sempre buscando o próximo nível técnico, seja explorando integrações com Inteligência Artificial, estudando para certificações como a Microsoft Azure AI Fundamentals ou lendo referências do setor. Meu objetivo é continuar evoluindo na área de Arquitetura de Software e entregar soluções que realmente façam a diferença.';
+      'Olá, sou o João Pedro Schiavoni Sarilho, um desenvolvedor de software com foco em backend e apaixonado por construir sistemas robustos, escaláveis e bem estruturados. Atualmente, curso Análise e Desenvolvimento de Sistemas na UNIP e concentro meu trabalho no ecossistema .NET e em Python.\n\nAcredito que um bom software vai além de fazer o código funcionar. Tenho um forte interesse em engenharia e arquitetura de software, aplicando ativamente princípios como Clean Architecture e SOLID para garantir aplicações de fácil manutenção. Essa visão técnica orientou o desenvolvimento do MoveUp, uma aplicação full stack local-first que integra uma experiência mobile em Flutter a uma API REST em ASP.NET Core.\n\nAlém da parte técnica, valorizo muito a comunicação e a visão global. Realizei um intercâmbio de um ano em Dublin, na Irlanda, o que consolidou minha fluência no inglês e me preparou para atuar em ambientes multiculturais.\n\nEstou sempre buscando o próximo nível técnico, seja explorando integrações com Inteligência Artificial, estudando para certificações como a Microsoft Azure AI Fundamentals ou lendo referências do setor. Meu objetivo é continuar evoluindo na área de Arquitetura de Software e entregar soluções que realmente façam a diferença.';
 
   @override
   String get education =>
@@ -65,8 +65,8 @@ class AppLocalizationsPt extends AppLocalizations {
       'Uma seleção de projetos e conceitos que traduzem minha forma de pensar software.';
 
   @override
-  String get fisio =>
-      'Plataforma de gestão e agendamento clínico. Atuação como Tech Lead de uma equipe de 8 pessoas, definindo arquitetura, modelo de dados e padrões de qualidade. Interface em migração para Flutter.';
+  String get moveUpCardDescription =>
+      'Aplicação full stack para planejar e acompanhar treinos. Crie fichas, registre séries e descansos e acompanhe evolução, medidas e frequência — mesmo sem internet.';
 
   @override
   String get expense =>
@@ -84,13 +84,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get realProject => 'Projeto integrador · UNIP';
 
   @override
+  String get fullStackProject => 'Aplicação full stack · Local-first';
+
+  @override
   String get personalProject => 'Projeto pessoal';
 
   @override
   String get concept => 'Conceito · demonstração';
 
   @override
-  String get projectVisual => 'Ilustração conceitual do projeto';
+  String get projectVisual => 'Apresentação visual do projeto';
 
   @override
   String get details => 'Explorar projeto';
