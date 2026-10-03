@@ -852,30 +852,6 @@ class _PortfolioPageState extends State<PortfolioPage>
         Icons.fitness_center_rounded,
         const Color(0xFF7CB7AC),
       ),
-      (
-        'ExpenseTracker',
-        t.expense,
-        'FastAPI · Flutter · PostgreSQL',
-        t.personalProject,
-        Icons.bar_chart_rounded,
-        const Color(0xFFB5A0DC),
-      ),
-      (
-        'CloudTask API',
-        t.cloud,
-        '.NET · Docker · PostgreSQL · AWS',
-        t.concept,
-        Icons.cloud_outlined,
-        const Color(0xFF8DB8DD),
-      ),
-      (
-        'AI Document API',
-        t.ai,
-        'Python · FastAPI · Azure AI · Docker',
-        t.concept,
-        Icons.description_outlined,
-        orange,
-      ),
     ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -893,117 +869,54 @@ class _PortfolioPageState extends State<PortfolioPage>
             children: data.asMap().entries.map((entry) {
               final p = entry.value;
               return SizedBox(
-                width: c.maxWidth < 700 ? c.maxWidth : (c.maxWidth - 24) / 2,
+                width: c.maxWidth.clamp(0, 760).toDouble(),
                 height: mobile ? 720 : 610,
                 child: HoverCard(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (entry.key == 0)
-                        Semantics(
-                          image: true,
-                          label: '${p.$1} — ${t.projectVisual}',
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(11),
-                            ),
-                            child: Stack(
-                              children: [
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: mobile ? 250 : 220,
-                                  child: Image.asset(
-                                    'assets/images/moveup-apresentacao.png',
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 16,
-                                  right: 16,
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                      vertical: 6,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: background.withValues(alpha: .82),
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: Text(
-                                      '0${entry.key + 1}',
-                                      style: TextStyle(
-                                        color: p.$6,
-                                        fontFamily: 'monospace',
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      else
-                        Container(
-                          height: mobile ? 250 : 220,
-                          padding: const EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [p.$6.withValues(alpha: .16), background],
-                            ),
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(12),
-                            ),
+                      Semantics(
+                        image: true,
+                        label: '${p.$1} — ${t.projectVisual}',
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(11),
                           ),
                           child: Stack(
                             children: [
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Icon(p.$5, color: p.$6, size: 36),
-                              ),
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Text(
-                                  '0${entry.key + 1}',
-                                  style: TextStyle(
-                                    color: p.$6,
-                                    fontFamily: 'monospace',
-                                  ),
+                              SizedBox(
+                                width: double.infinity,
+                                height: mobile ? 250 : 220,
+                                child: Image.asset(
+                                  'assets/images/moveup-apresentacao.png',
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: double.infinity,
-                                      child: FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          p.$1,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            color: p.$6,
-                                            fontSize: 28,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
+                              Positioned(
+                                top: 16,
+                                right: 16,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 6,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: background.withValues(alpha: .82),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Text(
+                                    '0${entry.key + 1}',
+                                    style: TextStyle(
+                                      color: p.$6,
+                                      fontFamily: 'monospace',
                                     ),
-                                    Text(
-                                      t.projectVisual,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(fontSize: 11),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
+                      ),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(24),
@@ -1031,28 +944,9 @@ class _PortfolioPageState extends State<PortfolioPage>
                               const SizedBox(height: 18),
                               TextButton.icon(
                                 key: ValueKey('explore-project-${entry.key}'),
-                                onPressed: entry.key == 0
-                                    ? () =>
-                                          Navigator.of(context)
-                                              .pushNamed('/projects/moveup')
-                                    : () => showDialog<void>(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          title: Text(p.$1),
-                                          content: SingleChildScrollView(
-                                            child: Text(
-                                              '${p.$4}\n\n${p.$2}\n\n${p.$3}\n\n${entry.key < 2 ? t.realDetail : t.conceptDetail}',
-                                            ),
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                              child: Text(t.close),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                onPressed: () =>
+                                    Navigator.of(context)
+                                        .pushNamed('/projects/moveup'),
                                 icon: const Icon(Icons.arrow_outward, size: 18),
                                 label: Text(t.details),
                               ),

@@ -62,7 +62,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get projectsIntro =>
-      'A selection of projects and concepts that reflect how I approach software.';
+      'MoveUp: workout planning and tracking with a local-first full-stack architecture.';
 
   @override
   String get moveUpCardDescription =>

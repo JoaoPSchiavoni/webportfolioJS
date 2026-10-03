@@ -62,7 +62,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get projectsIntro =>
-      'Uma seleção de projetos e conceitos que traduzem minha forma de pensar software.';
+      'MoveUp: planejamento e acompanhamento de treinos com uma arquitetura full stack local-first.';
 
   @override
   String get moveUpCardDescription =>

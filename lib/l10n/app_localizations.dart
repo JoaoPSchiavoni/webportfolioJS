@@ -197,7 +197,7 @@ abstract class AppLocalizations {
   /// No description provided for @projectsIntro.
   ///
   /// In pt, this message translates to:
-  /// **'Uma seleção de projetos e conceitos que traduzem minha forma de pensar software.'**
+  /// **'MoveUp: planejamento e acompanhamento de treinos com uma arquitetura full stack local-first.'**
   String get projectsIntro;
 
   /// No description provided for @moveUpCardDescription.

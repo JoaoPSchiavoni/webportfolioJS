@@ -57,11 +57,10 @@ void main() {
         scrollable: scroll,
       );
       final cards = find.byType(HoverCard);
-      expect(cards, findsNWidgets(4));
-      final cardHeight = tester.getSize(cards.first).height;
-      for (var index = 1; index < 4; index++) {
-        expect(tester.getSize(cards.at(index)).height, cardHeight);
-      }
+      expect(cards, findsOneWidget);
+      expect(find.text('ExpenseTracker'), findsNothing);
+      expect(find.text('CloudTask API'), findsNothing);
+      expect(find.text('AI Document API'), findsNothing);
       final explore = find.byKey(const ValueKey('explore-project-0'));
       await tester.ensureVisible(explore);
       await tester.pump(const Duration(milliseconds: 100));
