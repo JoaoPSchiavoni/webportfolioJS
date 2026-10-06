@@ -1013,11 +1013,15 @@ class _PortfolioPageState extends State<PortfolioPage>
             controller: email,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(labelText: t.email),
-            validator: (v) =>
-                v != null &&
-                    RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(v.trim())
-                ? null
-                : t.invalidEmail,
+            validator: (v) {
+              final value = v?.trim() ?? '';
+              if (value.isEmpty) {
+                return null;
+              }
+              return RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(value)
+                  ? null
+                  : t.invalidEmail;
+            },
           ),
           const SizedBox(height: 16),
           TextFormField(
@@ -1032,22 +1036,25 @@ class _PortfolioPageState extends State<PortfolioPage>
           FilledButton.icon(
             onPressed: () {
               if (form.currentState!.validate()) {
-                final subject = Uri.encodeComponent(
-                  '${t.mailSubject} — ${name.text.trim()}',
-                );
-                final body = Uri.encodeComponent(
-                  '${name.text.trim()} <${email.text.trim()}>\n\n${message.text.trim()}',
-                );
+                final emailValue = email.text.trim();
+                final whatsappMessage = [
+                  t.whatsappGreeting,
+                  '',
+                  '${t.whatsappName}: ${name.text.trim()}',
+                  if (emailValue.isNotEmpty) '${t.whatsappEmail}: $emailValue',
+                  '',
+                  message.text.trim(),
+                ].join('\n');
                 open(
-                  'mailto:joaopschiavoni@gmail.com?subject=$subject&body=$body',
+                  'https://wa.me/5516981261172?text=${Uri.encodeComponent(whatsappMessage)}',
                 );
               }
             },
-            icon: const Icon(Icons.arrow_outward, size: 18),
+            icon: const Icon(Icons.chat_rounded, size: 18),
             label: Text(t.send),
           ),
           const SizedBox(height: 12),
-          Text(t.mailHint, style: const TextStyle(fontSize: 12)),
+          Text(t.contactHint, style: const TextStyle(fontSize: 12)),
         ],
       ),
     );

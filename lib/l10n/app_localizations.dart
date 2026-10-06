@@ -299,32 +299,44 @@ abstract class AppLocalizations {
   /// No description provided for @email.
   ///
   /// In pt, this message translates to:
-  /// **'Seu e-mail'**
+  /// **'Seu e-mail (opcional)'**
   String get email;
 
   /// No description provided for @message.
   ///
   /// In pt, this message translates to:
-  /// **'O que você tem em mente?'**
+  /// **'Entre em contato'**
   String get message;
 
   /// No description provided for @send.
   ///
   /// In pt, this message translates to:
-  /// **'Preparar e-mail'**
+  /// **'Enviar pelo WhatsApp'**
   String get send;
 
-  /// No description provided for @mailHint.
+  /// No description provided for @contactHint.
   ///
   /// In pt, this message translates to:
-  /// **'Abre seu aplicativo de e-mail para revisar e enviar a mensagem.'**
-  String get mailHint;
+  /// **'Abre o WhatsApp com a mensagem pronta para revisar e enviar.'**
+  String get contactHint;
 
-  /// No description provided for @mailSubject.
+  /// No description provided for @whatsappGreeting.
   ///
   /// In pt, this message translates to:
-  /// **'Contato pelo portfólio'**
-  String get mailSubject;
+  /// **'Olá! Entrei em contato pelo seu portfólio.'**
+  String get whatsappGreeting;
+
+  /// No description provided for @whatsappName.
+  ///
+  /// In pt, this message translates to:
+  /// **'Nome'**
+  String get whatsappName;
+
+  /// No description provided for @whatsappEmail.
+  ///
+  /// In pt, this message translates to:
+  /// **'E-mail'**
+  String get whatsappEmail;
 
   /// No description provided for @requiredField.
   ///

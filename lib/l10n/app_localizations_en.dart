@@ -120,20 +120,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get name => 'Your name';
 
   @override
-  String get email => 'Your email';
+  String get email => 'Your email (optional)';
 
   @override
-  String get message => 'What do you have in mind?';
+  String get message => 'Get in touch';
 
   @override
-  String get send => 'Prepare email';
+  String get send => 'Send via WhatsApp';
 
   @override
-  String get mailHint =>
-      'Opens your email application so you can review and send your message.';
+  String get contactHint =>
+      'Opens WhatsApp with your message ready to review and send.';
 
   @override
-  String get mailSubject => 'Portfolio inquiry';
+  String get whatsappGreeting =>
+      'Hello! I\'m reaching out through your portfolio.';
+
+  @override
+  String get whatsappName => 'Name';
+
+  @override
+  String get whatsappEmail => 'Email';
 
   @override
   String get requiredField => 'Please complete this field.';

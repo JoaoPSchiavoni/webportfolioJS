@@ -25,14 +25,14 @@ void main() {
       await tester.pump(const Duration(seconds: 1));
       expect(tester.takeException(), isNull);
       await tester.scrollUntilVisible(
-        find.text('Prepare email'),
+        find.text('Send via WhatsApp'),
         700,
         scrollable: find.byType(Scrollable).first,
       );
-      await tester.tap(find.text('Prepare email'));
+      await tester.tap(find.text('Send via WhatsApp'));
       await tester.pump();
       expect(find.text('Please complete this field.'), findsNWidgets(2));
-      expect(find.text('Enter a valid email address.'), findsOneWidget);
+      expect(find.text('Enter a valid email address.'), findsNothing);
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());
     });
