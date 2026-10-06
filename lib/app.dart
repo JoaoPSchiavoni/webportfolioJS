@@ -894,6 +894,7 @@ class _PortfolioPageState extends State<PortfolioPage>
                                 child: Image.asset(
                                   'assets/images/moveup-apresentacao.png',
                                   fit: BoxFit.cover,
+                                  alignment: const Alignment(0, -0.7),
                                 ),
                               ),
                               Positioned(
