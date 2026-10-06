@@ -4,6 +4,16 @@ import 'package:webportfolio/app.dart';
 import 'package:webportfolio/moveup_project_page.dart';
 
 void main() {
+  test('WhatsApp contact URL includes the message and correct number', () {
+    const text = 'Nome: João\nE-mail: joao@example.com\n\nOlá!';
+    final uri = Uri.parse(buildWhatsAppUrl(text));
+
+    expect(uri.scheme, 'https');
+    expect(uri.host, 'wa.me');
+    expect(uri.path, '/5516981261172');
+    expect(uri.queryParameters['text'], text);
+  });
+
   for (final width in [360.0, 768.0, 1440.0]) {
     testWidgets('Responsive layout and language switching at $width', (
       tester,

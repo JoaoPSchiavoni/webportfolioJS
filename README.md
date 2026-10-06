@@ -1,6 +1,6 @@
 # João Schiavoni — Flutter Portfolio
 
-Portfólio responsivo em português e inglês. Flutter com localização ARB, foto, currículo, carrossel contínuo, animações com suporte a movimento reduzido, navegação e formulário via aplicativo de e-mail.
+Portfólio responsivo em português e inglês. Flutter com localização ARB, foto, currículo, carrossel contínuo, animações com suporte a movimento reduzido, navegação e contato via WhatsApp.
 
 ## Executar
 
@@ -28,7 +28,7 @@ Publique o conteúdo de `build/web` em um servidor estático HTTPS. Para subdire
 - Currículo original, em português: `assets/documents/curriculo_joao.pdf`.
 - MoveUp: único projeto exibido, com informações fornecidas pelo autor e materiais do projeto.
 - O card e a landing page do MoveUp usam as apresentações visuais oficiais em `assets/images/moveup-apresentacao.png` e `assets/images/moveup-devices.png`; os demais painéis são ilustrações conceituais.
-- Formulário valida os campos e prepara `mailto:`; exige aplicativo de e-mail configurado e não transmite dados para um servidor.
+- Formulário valida nome, e-mail opcional e mensagem, abrindo o WhatsApp com os dados preenchidos para revisão antes do envio.
 - Currículo abre o PDF no navegador, que permite salvar o arquivo.
 
-Não houve publicação automática. Adicione URLs reais dos repositórios e screenshots quando disponíveis.
+A publicação web é feita pela Vercel a partir da branch principal.

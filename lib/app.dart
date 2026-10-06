@@ -12,6 +12,10 @@ const orange = Color(0xFFFF6B35);
 const background = Color(0xFF0B151D);
 const surface = Color(0xFF111F29);
 const muted = Color(0xFFA9B2B8);
+const whatsappNumber = '5516981261172';
+
+String buildWhatsAppUrl(String text) =>
+    Uri.https('wa.me', '/$whatsappNumber', {'text': text}).toString();
 
 class PortfolioApp extends StatefulWidget {
   const PortfolioApp({super.key});
@@ -1045,9 +1049,7 @@ class _PortfolioPageState extends State<PortfolioPage>
                   '',
                   message.text.trim(),
                 ].join('\n');
-                open(
-                  'https://wa.me/5516981261172?text=${Uri.encodeComponent(whatsappMessage)}',
-                );
+                open(buildWhatsAppUrl(whatsappMessage));
               }
             },
             icon: const Icon(Icons.chat_rounded, size: 18),
