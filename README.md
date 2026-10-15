@@ -26,8 +26,8 @@ Publique o conteúdo de `build/web` em um servidor estático HTTPS. Para subdire
 - Componentes e layout: `lib/app.dart`.
 - Retrato: `assets/images/joao.png`.
 - Currículo original, em português: `assets/documents/curriculo_joao.pdf`.
-- MoveUp: único projeto exibido, com informações fornecidas pelo autor e materiais do projeto.
-- O card e a landing page do MoveUp usam as apresentações visuais oficiais em `assets/images/moveup-apresentacao.png` e `assets/images/moveup-devices.png`; os demais painéis são ilustrações conceituais.
+- MoveUp e Spendly: projetos completos exibidos com informações e materiais fornecidos pelo autor.
+- Os cards e as páginas de projeto usam apresentações visuais oficiais armazenadas em `assets/images/`.
 - Formulário valida nome, e-mail opcional e mensagem, abrindo o WhatsApp com os dados preenchidos para revisão antes do envio.
 - Currículo abre o PDF no navegador, que permite salvar o arquivo.
 

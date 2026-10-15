@@ -62,11 +62,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get projectsIntro =>
-      'MoveUp: workout planning and tracking with a local-first full-stack architecture.';
+      'Full-stack products combining mobile experiences, business rules and architecture designed to evolve.';
 
   @override
   String get moveUpCardDescription =>
       'A full-stack application for planning and tracking workouts. Create routines, log sets and rest periods, and follow progress, measurements and consistency — even offline.';
+
+  @override
+  String get spendlyCardDescription =>
+      'A cross-platform personal finance product with dashboards, budgets, goals, automation, statement imports and financial intelligence.';
 
   @override
   String get expense =>
@@ -85,6 +89,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fullStackProject => 'Full-stack application · Local-first';
+
+  @override
+  String get crossPlatformProject => 'Full-stack product · Cross-platform';
 
   @override
   String get personalProject => 'Personal project';

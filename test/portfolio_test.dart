@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:webportfolio/app.dart';
 import 'package:webportfolio/moveup_project_page.dart';
+import 'package:webportfolio/spendly_project_page.dart';
 
 void main() {
   test('WhatsApp contact URL includes the message and correct number', () {
@@ -67,7 +68,8 @@ void main() {
         scrollable: scroll,
       );
       final cards = find.byType(HoverCard);
-      expect(cards, findsOneWidget);
+      expect(cards, findsNWidgets(2));
+      expect(find.text('Spendly'), findsOneWidget);
       expect(find.text('ExpenseTracker'), findsNothing);
       expect(find.text('CloudTask API'), findsNothing);
       expect(find.text('AI Document API'), findsNothing);
@@ -89,6 +91,63 @@ void main() {
         findsOneWidget,
       );
       expect(find.text('Integridade pensada desde a base.'), findsOneWidget);
+      expect(find.byTooltip('Voltar'), findsOneWidget);
+      if (width == 1440) {
+        final appArchitecture = find.byKey(
+          const ValueKey('moveup-app-architecture'),
+        );
+        final apiArchitecture = find.byKey(
+          const ValueKey('moveup-api-architecture'),
+        );
+        expect(
+          tester.getSize(appArchitecture).height,
+          tester.getSize(apiArchitecture).height,
+        );
+      }
+      expect(tester.takeException(), isNull);
+
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+  }
+
+  for (final width in [360.0, 1440.0]) {
+    testWidgets('Spendly opens the complete project context at $width', (
+      tester,
+    ) async {
+      tester.view.physicalSize = Size(width, 1000);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(const PortfolioApp());
+      await tester.pump(const Duration(milliseconds: 100));
+
+      final scroll = find.byType(Scrollable).first;
+      await tester.scrollUntilVisible(
+        find.text('Spendly'),
+        700,
+        scrollable: scroll,
+      );
+      final moveUpCard = find.byKey(const ValueKey('project-card-moveup'));
+      final spendlyCard = find.byKey(const ValueKey('project-card-spendly'));
+      expect(tester.getSize(moveUpCard), tester.getSize(spendlyCard));
+      expect(tester.getSize(spendlyCard).height, width == 360 ? 580 : 610);
+      final explore = find.byKey(const ValueKey('explore-project-1'));
+      await tester.ensureVisible(explore);
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.tap(explore);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+
+      expect(find.byType(SpendlyProjectPage), findsOneWidget);
+      expect(
+        find.text('Organize hoje.\nRespire tranquilo amanhã.'),
+        findsOneWidget,
+      );
+      expect(
+        find.text('Uma base moderna, segura e pronta para crescer.'),
+        findsOneWidget,
+      );
       expect(find.byTooltip('Voltar'), findsOneWidget);
       expect(tester.takeException(), isNull);
 

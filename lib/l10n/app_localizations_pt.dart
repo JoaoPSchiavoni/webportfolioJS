@@ -62,11 +62,15 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get projectsIntro =>
-      'MoveUp: planejamento e acompanhamento de treinos com uma arquitetura full stack local-first.';
+      'Produtos full stack que unem experiência mobile, regras de negócio e arquitetura preparada para evoluir.';
 
   @override
   String get moveUpCardDescription =>
       'Aplicação full stack para planejar e acompanhar treinos. Crie fichas, registre séries e descansos e acompanhe evolução, medidas e frequência — mesmo sem internet.';
+
+  @override
+  String get spendlyCardDescription =>
+      'Plataforma multiplataforma de finanças pessoais com dashboard, orçamentos, metas, automações, importação de extratos e inteligência financeira.';
 
   @override
   String get expense =>
@@ -85,6 +89,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get fullStackProject => 'Aplicação full stack · Local-first';
+
+  @override
+  String get crossPlatformProject => 'Produto full stack · Multiplataforma';
 
   @override
   String get personalProject => 'Projeto pessoal';

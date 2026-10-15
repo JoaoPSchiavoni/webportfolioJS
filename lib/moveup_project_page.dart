@@ -389,32 +389,38 @@ class _MoveUpProjectPageState extends State<MoveUpProjectPage> {
           LayoutBuilder(
             builder: (_, constraints) {
               final wide = constraints.maxWidth >= 820;
-              final width = wide
-                  ? (constraints.maxWidth - 20) / 2
-                  : constraints.maxWidth;
-              return Wrap(
-                spacing: 20,
-                runSpacing: 20,
-                children: [
-                  SizedBox(
-                    width: width,
-                    child: _architectureCard(
-                      Icons.phone_iphone_rounded,
-                      c.appArchitectureTitle,
-                      c.appArchitectureBody,
-                      c.appFlow,
-                    ),
-                  ),
-                  SizedBox(
-                    width: width,
-                    child: _architectureCard(
-                      Icons.dns_outlined,
-                      c.apiArchitectureTitle,
-                      c.apiArchitectureBody,
-                      c.apiFlow,
-                    ),
-                  ),
-                ],
+              final appCard = KeyedSubtree(
+                key: const ValueKey('moveup-app-architecture'),
+                child: _architectureCard(
+                  Icons.phone_iphone_rounded,
+                  c.appArchitectureTitle,
+                  c.appArchitectureBody,
+                  c.appFlow,
+                ),
+              );
+              final apiCard = KeyedSubtree(
+                key: const ValueKey('moveup-api-architecture'),
+                child: _architectureCard(
+                  Icons.dns_outlined,
+                  c.apiArchitectureTitle,
+                  c.apiArchitectureBody,
+                  c.apiFlow,
+                ),
+              );
+              if (!wide) {
+                return Column(
+                  children: [appCard, const SizedBox(height: 20), apiCard],
+                );
+              }
+              return IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(child: appCard),
+                    const SizedBox(width: 20),
+                    Expanded(child: apiCard),
+                  ],
+                ),
               );
             },
           ),

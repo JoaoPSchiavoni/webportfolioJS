@@ -23,4 +23,8 @@ flutter:
     - assets/images/joao.png
     - assets/images/moveup-apresentacao.png
     - assets/images/moveup-devices.png
+    - assets/images/spendly-cover.png
+    - assets/images/spendly-phone.png
+    - assets/images/spendly-dashboard.png
+    - assets/images/spendly-landing/
     - assets/documents/curriculo_joao.pdf

@@ -197,7 +197,7 @@ abstract class AppLocalizations {
   /// No description provided for @projectsIntro.
   ///
   /// In pt, this message translates to:
-  /// **'MoveUp: planejamento e acompanhamento de treinos com uma arquitetura full stack local-first.'**
+  /// **'Produtos full stack que unem experiência mobile, regras de negócio e arquitetura preparada para evoluir.'**
   String get projectsIntro;
 
   /// No description provided for @moveUpCardDescription.
@@ -205,6 +205,12 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Aplicação full stack para planejar e acompanhar treinos. Crie fichas, registre séries e descansos e acompanhe evolução, medidas e frequência — mesmo sem internet.'**
   String get moveUpCardDescription;
+
+  /// No description provided for @spendlyCardDescription.
+  ///
+  /// In pt, this message translates to:
+  /// **'Plataforma multiplataforma de finanças pessoais com dashboard, orçamentos, metas, automações, importação de extratos e inteligência financeira.'**
+  String get spendlyCardDescription;
 
   /// No description provided for @expense.
   ///
@@ -235,6 +241,12 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Aplicação full stack · Local-first'**
   String get fullStackProject;
+
+  /// No description provided for @crossPlatformProject.
+  ///
+  /// In pt, this message translates to:
+  /// **'Produto full stack · Multiplataforma'**
+  String get crossPlatformProject;
 
   /// No description provided for @personalProject.
   ///

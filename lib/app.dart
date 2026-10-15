@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'l10n/app_localizations.dart';
 import 'moveup_project_page.dart';
+import 'spendly_project_page.dart';
 
 const orange = Color(0xFFFF6B35);
 const background = Color(0xFF0B151D);
@@ -72,7 +73,10 @@ class _PortfolioAppState extends State<PortfolioApp> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
-    routes: {'/projects/moveup': (_) => const MoveUpProjectPage()},
+    routes: {
+      '/projects/moveup': (_) => const MoveUpProjectPage(),
+      '/projects/spendly': (_) => const SpendlyProjectPage(),
+    },
     home: PortfolioPage(
       onLocale: (value) => setState(() => locale = Locale(value)),
       onMotion: (value) => setState(() => reduceMotionOverride = value),
@@ -849,12 +853,26 @@ class _PortfolioPageState extends State<PortfolioPage>
   Widget projects(bool mobile) {
     final data = [
       (
-        'MoveUp',
-        t.moveUpCardDescription,
-        'Flutter · Dart · .NET 10 · SQLite',
-        t.fullStackProject,
-        Icons.fitness_center_rounded,
-        const Color(0xFF7CB7AC),
+        name: 'MoveUp',
+        description: t.moveUpCardDescription,
+        technologies: 'Flutter · Dart · .NET 10 · SQLite',
+        label: t.fullStackProject,
+        icon: Icons.fitness_center_rounded,
+        color: const Color(0xFF7CB7AC),
+        image: 'assets/images/moveup-apresentacao.png',
+        alignment: const Alignment(0, -0.7),
+        route: '/projects/moveup',
+      ),
+      (
+        name: 'Spendly',
+        description: t.spendlyCardDescription,
+        technologies: 'Flutter · FastAPI · PostgreSQL · JWT',
+        label: t.crossPlatformProject,
+        icon: Icons.account_balance_wallet_rounded,
+        color: const Color(0xFF3D7CF4),
+        image: 'assets/images/spendly-cover.png',
+        alignment: Alignment.center,
+        route: '/projects/spendly',
       ),
     ];
     return Column(
@@ -867,104 +885,126 @@ class _PortfolioPageState extends State<PortfolioPage>
         Text(t.projectsIntro),
         const SizedBox(height: 40),
         LayoutBuilder(
-          builder: (_, c) => Wrap(
-            spacing: 24,
-            runSpacing: 24,
-            children: data.asMap().entries.map((entry) {
-              final p = entry.value;
-              return SizedBox(
-                width: c.maxWidth.clamp(0, 760).toDouble(),
-                height: mobile ? 720 : 610,
-                child: HoverCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Semantics(
-                        image: true,
-                        label: '${p.$1} — ${t.projectVisual}',
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(11),
-                          ),
-                          child: Stack(
-                            children: [
-                              SizedBox(
-                                width: double.infinity,
-                                height: mobile ? 250 : 220,
-                                child: Image.asset(
-                                  'assets/images/moveup-apresentacao.png',
-                                  fit: BoxFit.cover,
-                                  alignment: const Alignment(0, -0.7),
+          builder: (_, c) {
+            final singleColumn = c.maxWidth < 780;
+            final compactCard = mobile && c.maxWidth < 520;
+            final cardHeight = compactCard
+                ? 580.0
+                : singleColumn
+                ? 550.0
+                : 610.0;
+            final imageHeight = compactCard
+                ? 170.0
+                : singleColumn
+                ? 210.0
+                : 220.0;
+            final contentPadding = compactCard ? 18.0 : 24.0;
+
+            return Wrap(
+              spacing: 24,
+              runSpacing: 24,
+              children: data.asMap().entries.map((entry) {
+                final p = entry.value;
+                return SizedBox(
+                  key: ValueKey('project-card-${p.name.toLowerCase()}'),
+                  width: singleColumn ? c.maxWidth : (c.maxWidth - 24) / 2,
+                  height: cardHeight,
+                  child: HoverCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Semantics(
+                          image: true,
+                          label: '${p.name} — ${t.projectVisual}',
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(11),
+                            ),
+                            child: Stack(
+                              children: [
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: imageHeight,
+                                  child: Image.asset(
+                                    p.image,
+                                    fit: BoxFit.cover,
+                                    alignment: p.alignment,
+                                  ),
                                 ),
-                              ),
-                              Positioned(
-                                top: 16,
-                                right: 16,
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 6,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: background.withValues(alpha: .82),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Text(
-                                    '0${entry.key + 1}',
-                                    style: TextStyle(
-                                      color: p.$6,
-                                      fontFamily: 'monospace',
+                                Positioned(
+                                  top: 16,
+                                  right: 16,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 6,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: background.withValues(alpha: .82),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Text(
+                                      '0${entry.key + 1}',
+                                      style: TextStyle(
+                                        color: p.color,
+                                        fontFamily: 'monospace',
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              label(p.$4),
-                              const SizedBox(height: 12),
-                              Text(
-                                p.$1,
-                                style: const TextStyle(
-                                  fontSize: 24,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.all(contentPadding),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                label(p.label),
+                                const SizedBox(height: 12),
+                                Text(
+                                  p.name,
+                                  style: const TextStyle(
+                                    fontSize: 24,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 12),
-                              Expanded(child: Text(p.$2)),
-                              const SizedBox(height: 18),
-                              Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: p.$3.split(' · ').map(chip).toList(),
-                              ),
-                              const SizedBox(height: 18),
-                              TextButton.icon(
-                                key: ValueKey('explore-project-${entry.key}'),
-                                onPressed: () =>
-                                    Navigator.of(context)
-                                        .pushNamed('/projects/moveup'),
-                                icon: const Icon(Icons.arrow_outward, size: 18),
-                                label: Text(t.details),
-                              ),
-                            ],
+                                const SizedBox(height: 12),
+                                Expanded(child: Text(p.description)),
+                                const SizedBox(height: 18),
+                                Wrap(
+                                  spacing: 8,
+                                  runSpacing: 8,
+                                  children: p.technologies
+                                      .split(' · ')
+                                      .map(chip)
+                                      .toList(),
+                                ),
+                                const SizedBox(height: 18),
+                                TextButton.icon(
+                                  key: ValueKey('explore-project-${entry.key}'),
+                                  onPressed: () =>
+                                      Navigator.of(context).pushNamed(p.route),
+                                  icon: const Icon(
+                                    Icons.arrow_outward,
+                                    size: 18,
+                                  ),
+                                  label: Text(t.details),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              );
-            }).toList(),
-          ),
+                );
+              }).toList(),
+            );
+          },
         ),
       ],
     );
